@@ -46,4 +46,32 @@ https://www.youtube.com/watch?v=MbenLNMMl-4&list=PL34sAs7_26wO2pVeB-2xdI76Tp8t70
 
 learn kubernetes:
 https://www.youtube.com/watch?v=YzaYqxW0wGs&list=PL34sAs7_26wNBRWM6BDhnonoA5FMERax0
+  
+  
+## some more steps on installation
+  
+https://youtu.be/AoEWX84h_ig?list=PL34sAs7_26wODP4j6owN-36Vg-KbACgkT
+
+gcl git@github.com:justmeandopensource/kubernetes
+cd kubernetes/vagrant-provisioning
+
+scp root@172.16.16.100:/etc/kubernetes/admin.conf ~/.kube/config
+password:kubeadmin
+
+kubectl cluster-info dump
+kubectl get nodes
+kubectl -n kube-system get all
+kubectl get pods -o wide
+kubectl run --rm -it --image=alpine alpine -- sh
+#hostname -i
+
+on the node of pod created:
+ctr -h
+ctr namespace/ns list
+ctr containers/c list/ls --namespace <above_output>
+ctr containers info <container_id>
+
+
+istioctl:
+https://youtu.be/WFu8OLXUETY?list=PL34sAs7_26wPkw9g-5NQPP_rHVzApGpKP
 
