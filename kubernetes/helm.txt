@@ -1,0 +1,79 @@
+choco install kubernetes-helm
+
+common helm commands:
+helm version
+helm list
+helm rollback
+helm create
+helm search repo
+helm repo add
+helm install
+helm upgrade
+helm history
+helm package
+
+helm repo add stable https://charts.helm.sh/stable
+helm search repo stable/mysql [--versions]
+--version 1.6.3
+
+
+deploying a chart:
+helm install mysql stable/mysql [--dry-run --debug]
+
+
+in vscode settings.json
+{
+------
+------
+"vs-kubernetes": {
+  "vs-kubernetes.helm-path":"C:\\ProgramData\\chocolatey\\bin\\helm.exe"
+}
+}
+
+kubectl config current-context
+helm repo list
+helm show chart stable/mysql
+helm show readme stable/mysql
+helm show values stable/mysql
+helm get [values|notes|manifest] mysql
+helm history mysql
+helm uninstall mysql --keep-history
+helm delete mysql
+helm list --all
+
+
+helm upgrade mysql stable/mysql --version 1.6.4
+#revision will be updated and description.
+helm rollback release_name release_revision
+helm rollback mysql 1
+
+
+helm pull stable/mysql --untar
+
+
+kubectl get all
+
+
+
+helm create ourchart
+ourchart\templates
+
+kubectl create deployment nginx 
+--image=nginx
+--dry-run=client
+--output=yaml
+
+copy this to deployment.yaml
+
+kubectl expose deployment nginx
+--type=LoadBalancer
+--port=80
+--dry-run=client
+--output=yaml
+
+copy this to services.yaml
+
+helm install ourchart .\ourchart\
+
+helm package .\ourchart --destination C:\charts
+
