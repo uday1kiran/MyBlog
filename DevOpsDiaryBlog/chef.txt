@@ -1,0 +1,115 @@
+chef client can be isntalled using below ways:
+
+fedora:
+yum install chef
+ubuntu:
+apt-get install chef
+windows:
+using exe
+
+using workstation:
+on cnetos:
+knife bootstrap <IP> -N <HostName> --ssh-user <UserName> --sudo --identity-file <Private Key>
+
+
+
+
+chef work station: chefdk (chef development kit)
+chef server: open source/enterprise/hosted services
+Nodes --virtual/cloud/network device
+
+multiple resoures are in a recipe
+multiple recipes(.rb files) are in a cookbook
+
+cookstyle <RECIPE_FILE>
+chef-client --local-mode --why-run <RECIPE_FILE>
+chef-client --local-mode <RECIPE_FILE>
+
+--local-mode --> to use localrecipe instead of checking for server
+
+demouser.rb
+-----
+user 'someuser' do
+ shell '/bin/bash'
+ uid ''9999'
+end
+
+file '/var/tmp/testfile' do
+ owner 'someuser'
+ group 'someuser'
+ mode '777'
+ content "sdf sd fds fds fsdf \n"
+ action :create #if not specifede, uses default action of resource
+end
+
+--------------
+#to inspect
+cookstyle demouser.rb
+#test
+chef-client --local-mode demouser.rb --why-run
+#--why-run is smoke test
+#to check user created: #id someuser
+
+
+
+
+demopkg.rb
+----
+package 'telnet' do
+ action :install
+end
+
+#rpm -qa | grep telnet -i telnet
+#rpm -qi <above_output>
+
+demoservice.rb
+--
+service 'nfs' do
+ action :start
+end
+
+
+multiresoruce.rb
+---
+directory '/var/tmp/newdir' do
+ owner 'root'
+ group 'root'
+ mode ''777'
+ action :create
+end
+
+file '/var/tmp/newdir' do
+ mode '777'
+ content 'sdfsdf'
+ action: create
+end
+
+---
+demoweb.rb
+--
+# web service package installation
+package 'httpd' do
+ action :install
+end
+# webserver file configuration
+file '/var/www/html/index.html' do
+ content "This is my chef configured web server file \n"
+ action: create
+end
+# web server service startup
+service 'httpd' do
+ action :start
+end
+
+cookstyle demoweb.rb -->validation
+
+---
+to create cookbook:
+chef generate cookbook webapp
+#add contents to the skeleton created.
+
+cookstyle <cookbook name>
+chef-client --local-mode --why-run <COOKBOOK NAME pointing to the folder>
+
+
+
