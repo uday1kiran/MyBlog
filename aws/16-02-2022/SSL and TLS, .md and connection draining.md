@@ -14,4 +14,4 @@
 
 
 ## ELB - connection draining:
-- ![Image]("9 connection draining.png")
+- ![Image](9%20connection%20draining.png)
