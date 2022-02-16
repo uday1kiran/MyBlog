@@ -16,3 +16,5 @@
 ![Image](asg7.png)
 
 ![Image](asg8.png)
+
+[ASG continued](https://github.com/uday1kiran/MyBlog/blob/master/aws/16-02-2022/ASG/asg_continued.pdf)
