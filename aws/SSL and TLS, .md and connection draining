@@ -1,0 +1,5 @@
+
+
+for alb, we can use a different certificate for each rule.
+
+ELB - connection draining:
