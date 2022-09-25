@@ -1,2 +1,3 @@
-- Basics of c#
-- Seleneium notes of c#
+- Environment setup and basics of c#
+- Seleneium Webdriver and sample page opening
+- 
