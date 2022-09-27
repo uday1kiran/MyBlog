@@ -1,1 +1,1 @@
-- Selenium locators using Xpath,css, id, classname, name, tagname,  linktext
+- [Selenium locators using Xpath,css, id, classname, name, tagname,  linktext](https://linuxdiaryblog.blogspot.com/2022/09/selenium-locators-using-xpathcss-id.html)
