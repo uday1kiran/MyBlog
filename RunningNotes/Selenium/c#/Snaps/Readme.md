@@ -1,0 +1,1 @@
+- Selenium locators using Xpath,css, id, classname, name, tagname,  linktext
