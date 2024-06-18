@@ -16,7 +16,13 @@ o set up a local Kubernetes cluster on a VM and access it using a domain name se
      sudo apt update
      sudo apt install kubelet kubeadm kubectl
      ```
-   - Initialize the Kubernetes cluster: `sudo kubeadm init`
+   - disable cgroup or else will get error during init.
+      ```
+      sed -i "s/cgroupDriver: systemd/cgroupDriver: cgroupfs/g" /var/lib/kubelet/config.yaml
+      systemctl daemon-reload
+      systemctl restart kubelet
+      ```
+   - Initialize the Kubernetes cluster: `sudo kubeadm init` or with custom ip: `sudo kubeadm init --apiserver-advertise-address=192.168.56.104 --pod-network-cidr=172.17.0.0/16`
    - Configure kubectl:
      ```
      mkdir -p $HOME/.kube
