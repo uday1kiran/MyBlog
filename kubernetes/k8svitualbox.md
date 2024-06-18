@@ -29,6 +29,14 @@ o set up a local Kubernetes cluster on a VM and access it using a domain name se
      ```
      kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
      ```
+3. Set up networking with Flannel:
+   - Apply the Flannel manifest:
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+     ```
+   - Wait for the Flannel pods to be running:
+     ```
+     kubectl get pods -n kube-system
 
 4. Set up a local domain name:
    - Open the hosts file: `sudo nano /etc/hosts`
