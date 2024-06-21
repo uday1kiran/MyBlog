@@ -1,0 +1,39 @@
+#kubectl apply -f example-deployment.yaml
+#kubectl apply -f example-service.yaml
+#kubectl get deployments
+#kubectl get services
+#kubectl describe service example-service | grep NodePort
+#curl http://<IP_of_Node>:<NodePort> ##on host machine
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example-app
+  template:
+    metadata:
+      labels:
+        app: example-app
+    spec:
+      containers:
+      - name: example-app
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+spec:
+  selector:
+    app: example-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
