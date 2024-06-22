@@ -1,5 +1,6 @@
 
 - docker and kind install on ubuntu 24.
+  
 [reference link for kubectl installation](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux)
   
 ```
