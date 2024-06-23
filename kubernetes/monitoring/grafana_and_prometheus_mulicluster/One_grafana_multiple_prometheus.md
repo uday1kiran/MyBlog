@@ -132,13 +132,62 @@ releases:
                      isDefault: false
                    {{- end }}
 ```
+- Or you can use below file, which will expose grafana only as NodePort and keep monitoring cluster prometheus-server as ClusterIP only.
+```
+#helmfile.yaml
+repositories:
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
+
+releases:
+  - name: prometheus
+    chart: prometheus-community/prometheus
+    namespace: monitoring
+    values:
+      - server:
+          service:
+            type: ClusterIP
+
+  - name: grafana
+    chart: grafana/grafana
+    namespace: monitoring
+    values:
+      - service:
+          type: NodePort
+          nodePort: 30080
+      - datasources:
+          datasources.yaml:
+            apiVersion: 1
+            datasources:
+              - name: Prometheus
+                type: prometheus
+                url: http://prometheus-server.monitoring.svc.cluster.local
+                access: proxy
+                isDefault: true
+              {{- range $index, $clusterName := (list "cluster1" "cluster2") }}
+              - name: {{ $clusterName }}
+                type: prometheus
+                url: http://{{ index (list "10.11.53.16" "10.11.53.16") $index }}:{{ index (list 30081 30082) $index }}
+                access: proxy
+                isDefault: false
+              {{- end }}
+```
+
 - commands used.
 ```
 cd ../monitoring
 helmfile sync --kube-context kind-monitoring
 kubectl get svc grafana -n monitoring --context kind-cluster1
 ```
-- open browser and access http://<hostip>:<grafana_node_port> and see in the data sources section, entriess will be added.
+- username for grafana: admin password is output of this command
+  ```
+kubectl get secret --namespace monitoring grafana --context kind-monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+  ```
+- open browser and access http://<hostip>:<grafana_node_port> and see in the data sources section, entries will be added.
 ![image](https://github.com/uday1kiran/MyBlog/assets/9269442/adce1b3e-2550-49c0-895d-7e2550f2468e)
 - And also you can import any dashboard from [dadshboards](https://github.com/uday1kiran/MyBlog/blob/k8s/kubernetes/monitoring/grafana_prometheus_import_dashboards.md) and can view these datasources under that.
+![image](https://github.com/uday1kiran/MyBlog/assets/9269442/e2e56561-a160-4af1-a065-b56d6c0a7c91)
+
 ![image](https://github.com/uday1kiran/MyBlog/assets/9269442/b3cf8023-a952-4e06-8f00-236e96b04081)
