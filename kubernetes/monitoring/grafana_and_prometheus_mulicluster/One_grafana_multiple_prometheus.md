@@ -179,12 +179,10 @@ releases:
 ```
 cd ../monitoring
 helmfile sync --kube-context kind-monitoring
-kubectl get svc grafana -n monitoring --context kind-cluster1
-```
-- username for grafana: admin password is output of this command
-  ```
+kubectl get svc grafana -n monitoring --context kind-monitoring
 kubectl get secret --namespace monitoring grafana --context kind-monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
-  ```
+##username admin, password above output
+```
 - open browser and access http://<hostip>:<grafana_node_port> and see in the data sources section, entries will be added.
 ![image](https://github.com/uday1kiran/MyBlog/assets/9269442/adce1b3e-2550-49c0-895d-7e2550f2468e)
 - And also you can import any dashboard from [dadshboards](https://github.com/uday1kiran/MyBlog/blob/k8s/kubernetes/monitoring/grafana_prometheus_import_dashboards.md) and can view these datasources under that.
