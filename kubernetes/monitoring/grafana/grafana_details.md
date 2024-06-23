@@ -43,3 +43,15 @@ If the above steps don't work or you can't find the password, you can consider t
   - Redeploy Grafana with a specified admin password in the configuration or using a Kubernetes secret.
 
 Remember to follow security best practices and rotate the Grafana admin password regularly to ensure the security of your Grafana installation.
+
+- Example: grafana deployed on a cluster using official helm chart.
+```
+kubectl get secrets -n monitoring --context kind-monitoring
+NAME                               TYPE                 DATA   AGE
+grafana                            Opaque               3      20m
+sh.helm.release.v1.grafana.v1      helm.sh/release.v1   1      20m
+sh.helm.release.v1.prometheus.v1   helm.sh/release.v1   1      20m
+
+kubectl get secret grafana -n monitoring -o jsonpath="{.data.admin-password}" --context kind-monitoring | base64 --decode
+dAnKdDVTS5cZo19zvT4cIT9L5EaVlsE11uCg63nA
+```
