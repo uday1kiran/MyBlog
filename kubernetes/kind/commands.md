@@ -53,6 +53,15 @@ kind get clusters ##to get list of clusters on machine
 kind create cluster --name kind1 ##single node default settings.
 kubectl get pods --context kind-kind1
 kubectl cluster-info --context kind-kind1
+```
+
+- To delete all clusters in Kind (Kubernetes in Docker), you can use the following command:
+
+```
+kind delete clusters --all
+```
+- To delete single cluster
+```
 kind delete cluster --name kind-3
 ```
 
