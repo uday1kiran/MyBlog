@@ -29,6 +29,11 @@ sudo apt update -y
 sudo apt install kubelet kubeadm kubectl -y
 ```
 
+- Create a cluster
+```
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+```
+
 - For calico network
 ```
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/tigera-operator.yaml
