@@ -28,3 +28,12 @@ echo 'deb [signed-by=/etc/apt/keyrings/k8s.gpg] https://pkgs.k8s.io/core:/stable
 sudo apt update -y
 sudo apt install kubelet kubeadm kubectl -y
 ```
+
+- For calico network
+```
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/tigera-operator.yaml
+```
+- Flannel network
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
