@@ -86,6 +86,22 @@ nodes:
   - containerPort: 30081
     hostPort: 30081
 ```
+- or you can add in single commmand by not passing any file, just content.
+```
+kind create cluster --name one \
+  --config=<(cat <<EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 30081
+    hostPort: 30081
+  - containerPort: 30082
+    hostPort: 30082
+EOF
+)
+```
 
 - In deployment of sample app.
 ```bash
