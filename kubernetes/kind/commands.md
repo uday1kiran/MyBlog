@@ -146,3 +146,19 @@ nodes:
 - role: worker
 - role: worker
 ```
+
+- To have kubectl commands to run from network machine, run with below configuration
+
+
+```yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  apiServerAddress: "<host_machine_ip>"
+```
+
+Then create the cluster with:
+
+```
+kind create cluster --config=config.yaml
+```
