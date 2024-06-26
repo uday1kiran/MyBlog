@@ -27,7 +27,7 @@
               # Add the current user to the docker group
               sudo groupadd docker
               sudo usermod -aG docker $USER
-              newgrp docker
+              ## newgrp docker   ##as is stopping the execution here.
 
               # Install Kind
  #             curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.15.0/kind-linux-amd64
@@ -45,6 +45,9 @@ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stabl
 ##chmod +x kubectl
 ##sudo mv kubectl /usr/local/bin/
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+##to reload group settings
+newgrp docker
 ```
 
 - kind cluster commands.
