@@ -47,3 +47,5 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 ```
 kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 ```
+
+- If you want to change the podcidr of flannel network or having issues with the network deployed, check the flannel-network-cidr-change.md
