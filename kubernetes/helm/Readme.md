@@ -13,7 +13,7 @@ mkdir temp
 tar -xvzf helmfile_0.165.0_linux_amd64.tar.gz -C temp/
 chmod +x temp/helmfile
 sudo mv temp/helmfile /usr/local/bin/
-rm -rf temp
+rm -rf temp helmfile_0.165.0_linux_amd64.tar.gz
 ```
 
 # Install kubectl
