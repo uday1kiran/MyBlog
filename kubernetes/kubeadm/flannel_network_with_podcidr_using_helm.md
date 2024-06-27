@@ -43,6 +43,35 @@ echo "Kubernetes cluster setup complete!"
 echo "You can now join worker nodes using the kubeadm join command provided above."
 ```
 
+If you have already installed kubeadm,helm,helmfile,kubectl using tools_install_steps.md and helm/Readme.md. Use below script.
+```
+#!/bin/bash
+
+# Set variables
+MASTER_IP="10.11.53.35"
+POD_CIDR="10.244.0.0/16"  # Default Flannel Pod CIDR
+
+# Initialize the Kubernetes cluster
+sudo kubeadm init --pod-network-cidr=${POD_CIDR} --apiserver-advertise-address=${MASTER_IP}
+
+# Set up kubeconfig for the current user
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# Add Flannel Helm repo
+helm repo add flannel https://flannel-io.github.io/helm-charts/
+
+# Install Flannel using Helm
+helm install flannel flannel/flannel --namespace kube-system --set podCidr="${POD_CIDR}"
+
+# Remove the taint on the master node to allow pod scheduling
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+echo "Kubernetes cluster setup complete!"
+echo "You can now join worker nodes using the kubeadm join command provided above."
+```
+
 Before running this script, make sure to:
 
 1. Replace `<your-master-ip>` with the actual IP address of your master node.
