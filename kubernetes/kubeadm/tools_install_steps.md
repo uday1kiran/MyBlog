@@ -42,3 +42,8 @@ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0
 ```
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
+
+- flannel got from documentation, latest one [reference](https://github.com/flannel-io/flannel#deploying-flannel-manually)
+```
+kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+```
