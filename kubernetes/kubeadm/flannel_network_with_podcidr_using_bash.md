@@ -1,47 +1,4 @@
-Here's a script that automates the process of installing a Kubernetes cluster using kubeadm, setting up Flannel networking with Helm, and configuring the Pod CIDR in a single step:
-
-```bash
-#!/bin/bash
-
-# Set variables
-MASTER_IP="<your-master-ip>"
-POD_CIDR="10.244.0.0/16"  # Default Flannel Pod CIDR
-KUBERNETES_VERSION="1.23.0"  # Specify your desired Kubernetes version
-
-# Install dependencies
-sudo apt-get update
-sudo apt-get install -y docker.io apt-transport-https curl
-
-# Add Kubernetes repo and install kubeadm, kubelet, and kubectl
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-sudo apt-get update
-sudo apt-get install -y kubeadm=${KUBERNETES_VERSION}-00 kubelet=${KUBERNETES_VERSION}-00 kubectl=${KUBERNETES_VERSION}-00
-sudo apt-mark hold kubeadm kubelet kubectl
-
-# Initialize the Kubernetes cluster
-sudo kubeadm init --pod-network-cidr=${POD_CIDR} --apiserver-advertise-address=${MASTER_IP}
-
-# Set up kubeconfig for the current user
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
-# Install Helm
-curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-
-# Add Flannel Helm repo
-helm repo add flannel https://flannel-io.github.io/helm-charts/
-
-# Install Flannel using Helm
-helm install flannel flannel/flannel --namespace kube-system --set podCidr="${POD_CIDR}"
-
-# Remove the taint on the master node to allow pod scheduling
-kubectl taint nodes --all node-role.kubernetes.io/master-
-
-echo "Kubernetes cluster setup complete!"
-echo "You can now join worker nodes using the kubeadm join command provided above."
-```
+Here's a script that automates the process of installing a Kubernetes cluster using kubeadm, setting up Flannel networking, and configuring the Pod CIDR in a single step:
 
 If you have already installed kubeadm,helm,helmfile,kubectl using tools_install_steps.md and helm/Readme.md. Use below script.
 ```
@@ -59,11 +16,13 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-# Add Flannel Helm repo
-helm repo add flannel https://flannel-io.github.io/helm-charts/
+curl -o kube-flannel.yml https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
-# Install Flannel using Helm
-helm install flannel flannel/flannel --namespace kube-system --set podCidr="${POD_CIDR}"
+# Modify the Flannel manifest to use the custom CIDR
+sed -i "s|10.244.0.0/16|${POD_CIDR}|g" kube-flannel.yml
+
+# Apply the modified Flannel manifest
+kubectl apply -f kube-flannel.yml
 
 # Remove the taint on the master node to allow pod scheduling
 kubectl taint nodes --all node-role.kubernetes.io/master-
