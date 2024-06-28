@@ -86,12 +86,19 @@ After completing these steps, you'll have:
 Now, update your `prometheus-values.yaml` file with the correct API server addresses and bearer tokens:
 
 ```yaml
+alertmanager:
+  enabled: false
+  persistentVolume:
+    enabled: false
+  statefulSet:
+    enabled: false
 server:
   global:
     scrape_interval: 15s
     evaluation_interval: 15s
   persistentVolume:
     size: 8Gi
+    enabled: false
   additionalScrapeConfigs:
     - job_name: 'cluster-one-node-exporter'
       kubernetes_sd_configs:
