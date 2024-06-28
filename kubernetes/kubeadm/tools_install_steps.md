@@ -60,3 +60,8 @@ kubeadm4   Ready    <none>          39s     v1.30.2
 vmadmin@kubeadm3:~$ kubectl label node kubeadm4 node-role.kubernetes.io/worker=worker
 node/kubeadm4 labeled
 ```
+
+- Optional: if only control plane is there, it might happen that it is not set to schedule pods.
+```
+kubectl taint nodes <node-name> node-role.kubernetes.io/control-plane- 
+```
