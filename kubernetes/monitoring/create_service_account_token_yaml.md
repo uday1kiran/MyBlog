@@ -48,7 +48,8 @@ kubectl get secret my-serviceaccount-token -o jsonpath='{.data.token}' | base64 
 
 To test the token
 ```
-TOKEN=$(kubectl get secret $(kubectl get sa my-serviceaccount -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode)
+##TOKEN=$(kubectl get secret $(kubectl get sa my-serviceaccount -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode)
+TOKEN=$(kubectl get secret my-serviceaccount-token -o jsonpath='{.data.token}' | base64 -d)
 curl -H "Authorization: Bearer $TOKEN" https://<api-server-url>/api/v1/nodes
 ```
 
