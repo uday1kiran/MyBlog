@@ -22,9 +22,24 @@ kind: ClusterRole
 metadata:
   name: my-cluster-role
 rules:
+#- apiGroups: [""]
+#  resources: ["nodes"]
+#  verbs: ["get", "list", "watch"]
 - apiGroups: [""]
-  resources: ["nodes"]
+  resources:
+  - nodes
+  - nodes/proxy
+  - services
+  - endpoints
+  - pods
   verbs: ["get", "list", "watch"]
+- apiGroups:
+  - extensions
+  resources:
+  - ingresses
+  verbs: ["get", "list", "watch"]
+- nonResourceURLs: ["/metrics"]
+  verbs: ["get"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
