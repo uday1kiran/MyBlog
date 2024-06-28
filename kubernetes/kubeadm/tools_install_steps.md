@@ -49,3 +49,14 @@ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/
 ```
 
 - If you want to change the podcidr of flannel network or having issues with the network deployed, check the flannel-network-cidr-change.md
+
+
+- Optional: If you want to a node worker label.
+```
+vmadmin@kubeadm3:~$ kubectl get nodes
+NAME       STATUS   ROLES           AGE     VERSION
+kubeadm3   Ready    control-plane   3m40s   v1.30.2
+kubeadm4   Ready    <none>          39s     v1.30.2
+vmadmin@kubeadm3:~$ kubectl label node kubeadm4 node-role.kubernetes.io/worker=worker
+node/kubeadm4 labeled
+```
